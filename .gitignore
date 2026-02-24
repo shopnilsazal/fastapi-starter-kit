@@ -23,6 +23,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 .venv
+db_data
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -38,10 +39,6 @@ pip-delete-this-directory.txt
 newrelic.ini
 .python-version
 .env
-.env.admin
-.env.common
-.env.celery
-.venv
 
 # Others
 credentials.json

@@ -1,0 +1,33 @@
+# Venv
+.venv/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+.ruff_cache/
+
+# IDE Specific
+.idea/
+.vscode/
+.DS_Store
+db_data
+
+# Test artifacts
+.coverage
+htmlcov/
+
+# Documentation and non-essential files
+docs/
+scripts/
+LICENSE
+logo.jpg
+
+# Local environment
+.env*

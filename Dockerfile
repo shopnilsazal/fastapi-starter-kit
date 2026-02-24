@@ -1,29 +1,33 @@
-FROM python:3.12.5-slim-bookworm
+FROM python:3.14.3-slim-trixie
 
-ENV PYTHONUNBUFFERED=1 \
-  TZ="Asia/Dhaka" \
-  UV_VERSION=0.4.3
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# System deps:
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates tzdata && \
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONHASHSEED=random \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DEFAULT_TIMEOUT=100 \
+    UV_LINK_MODE="copy" \
+    APP_USERNAME="app_user" \
+    USER_HOME="/home/app_user"
+
+RUN apt-get update && \
+    apt-get install -yq --no-install-recommends tzdata && \
     ln -fs /usr/share/zoneinfo/Asia/Dhaka /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata
+    dpkg-reconfigure -f noninteractive tzdata && \
+    pip install --no-cache-dir --upgrade pip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Download the latest installer
-ADD https://astral.sh/uv/$UV_VERSION/install.sh /uv-installer.sh
-# Run the installer then remove it
-RUN sh /uv-installer.sh && rm /uv-installer.sh
-# Ensure the installed binary is on the `PATH`
-ENV PATH="/root/.cargo/bin/:$PATH"
+RUN useradd --create-home --shell /bin/bash ${APP_USERNAME}
 
-# Copy only requirements to cache them in docker layer
-WORKDIR /code
-# Copy the lockfile and `pyproject.toml` into the image
-ADD uv.lock /code/uv.lock
-ADD pyproject.toml /code/pyproject.toml
-# Install dependencies
-RUN uv sync --frozen --no-install-project
-# Copy the project into the image
-ADD . /code
-# Sync the project
-RUN uv sync --frozen
+WORKDIR ${USER_HOME}/code
+RUN chown -R ${APP_USERNAME}:${APP_USERNAME} ${USER_HOME}/code
+
+USER ${APP_USERNAME}
+ENV PATH="${USER_HOME}/.local/bin:${PATH}"
+
+COPY --chown=${APP_USERNAME}:${APP_USERNAME} pyproject.toml uv.lock README.md ${USER_HOME}/code/
+
+RUN uv pip install --prefix ${USER_HOME}/.local .
+COPY --chown=${APP_USERNAME}:${APP_USERNAME} . ${USER_HOME}/code/

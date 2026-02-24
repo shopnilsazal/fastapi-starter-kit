@@ -35,7 +35,6 @@ class LoggingMiddleware:
         request.state.log_data = log_data
         logger.info("Request Received", extra=log_data.model_dump())
         try:
-
             async def send_with_response(message):
                 if message["type"] == "http.response.start":
                     log_data.response_code = message["status"]
@@ -44,9 +43,9 @@ class LoggingMiddleware:
             await self.app(scope, receive, send_with_response)
         except Exception as e:
             log_data.response_code = 500
-            logger.error(e.__str__(), extra=log_data.model_dump())
+            logger.error(str(e), extra=log_data.model_dump())
             raise
         finally:
             end_time = time.perf_counter()
             log_data.response_time = end_time - start_time
-            logger.info("response Sent", extra=log_data.model_dump())
+            logger.info("Response Sent", extra=log_data.model_dump())

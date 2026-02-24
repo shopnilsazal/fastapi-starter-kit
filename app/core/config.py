@@ -1,9 +1,9 @@
-from pydantic import ValidationInfo, field_validator
+from pydantic import ValidationInfo, field_validator, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    settings_config = SettingsConfigDict(case_sensitive=True)
+    model_config = SettingsConfigDict(case_sensitive=True)
 
     PROJECT_NAME: str = "FastAPI Starter Kit"
     PROJECT_DESC: str = "A starter kit for FastAPI with SQLAlchemy"
@@ -18,11 +18,11 @@ class Settings(BaseSettings):
     REDIS_PORT: str = "6379"
     REDIS_PASS: str = ""
 
-    DB_HOST: str
-    DB_PORT: str
-    DB_NAME: str
-    DB_USERNAME: str
-    DB_PASSWORD: str
+    DB_HOST: str = "database"
+    DB_PORT: int = 5432
+    DB_NAME: str = Field(alias="POSTGRES_DB")
+    DB_USERNAME: str = Field(alias="POSTGRES_USER")
+    DB_PASSWORD: str = Field(alias="POSTGRES_PASSWORD")
     DB_URL: str = ""
 
     TIME_ZONE: str = "Asia/Dhaka"
@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     @field_validator("DB_URL", mode="before")
     def prepare_db_url(cls, value, info: ValidationInfo):
         return (
-            f"postgresql+psycopg://{info.data.get('DB_USERNAME')}:{info.data.get('DB_PASSWORD')}"
+            f"postgresql+asyncpg://{info.data.get('DB_USERNAME')}:{info.data.get('DB_PASSWORD')}"
             f"@{info.data.get('DB_HOST')}:{info.data.get('DB_PORT')}/{info.data.get('DB_NAME')}"
         )
 
