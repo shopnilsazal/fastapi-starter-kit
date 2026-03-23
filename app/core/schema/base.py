@@ -22,7 +22,7 @@ class LogData(PydanticModel):
     request_data: Optional[str] = None
     response_data: Optional[str] = None
     response_code: Optional[int] = None
-    response_time: Optional[int] = None
+    response_time: Optional[float] = None
 
     class Config:
         validate_assignment = True

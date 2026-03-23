@@ -5,7 +5,8 @@ from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 # Import all models so autogenerate can detect them
-import app.api.events.models  # noqa: F401
+import app.api.v1.events.models  # noqa: F401
+import app.api.v1.users.models  # noqa: F401
 from alembic import context
 from app.core.config import settings
 from app.core.db.models import BaseModel

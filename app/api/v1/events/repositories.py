@@ -5,7 +5,7 @@ from typing import Optional
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.events.models import Event
+from app.api.v1.events.models import Event
 
 
 class EventRepository:

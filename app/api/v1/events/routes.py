@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from app.api.events.schemas import EventListAPIResponse, SingleEventAPIResponse
-from app.api.events.views import (
+from app.api.v1.events.schemas import EventListAPIResponse, SingleEventAPIResponse
+from app.api.v1.events.views import (
     create_event_handler,
     delete_event_handler,
     get_event_handler,

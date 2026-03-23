@@ -5,9 +5,9 @@ from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.status import HTTP_404_NOT_FOUND
 
-from app.api.events.models import Event
-from app.api.events.repositories import EventRepository
-from app.api.events.schemas import EventCreateRequest, EventUpdateRequest
+from app.api.v1.events.models import Event
+from app.api.v1.events.repositories import EventRepository
+from app.api.v1.events.schemas import EventCreateRequest, EventUpdateRequest
 from app.core.errors.api_exception import APIException
 
 

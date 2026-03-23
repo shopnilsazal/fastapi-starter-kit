@@ -5,8 +5,8 @@ from typing import Optional
 from fastapi import Depends, Query, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.events.models import Event
-from app.api.events.schemas import (
+from app.api.v1.events.models import Event
+from app.api.v1.events.schemas import (
     EventCreateRequest,
     EventListAPIResponse,
     EventListResponse,
@@ -15,7 +15,7 @@ from app.api.events.schemas import (
     EventUpdateRequest,
     SingleEventAPIResponse,
 )
-from app.api.events.services import EventService
+from app.api.v1.events.services import EventService
 from app.core.db.database import get_db_session
 
 
