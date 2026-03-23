@@ -1,0 +1,51 @@
+site_name: FastAPI Starter Kit
+site_description: A production-ready FastAPI starter template with PostgreSQL, Redis, Docker Compose, and modern Python tooling.
+site_url: https://github.com/shopnilsazal/fastapi-starter-kit
+repo_url: https://github.com/shopnilsazal/fastapi-starter-kit
+repo_name: fastapi-starter-kit
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Configuration: getting-started/configuration.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Middleware: architecture/middleware.md
+  - Core Modules:
+    - Database: core/database.md
+    - Cache: core/cache.md
+    - Error Handling: core/error-handling.md
+    - Logging: core/logging.md
+  - Contributing: contributing.md
